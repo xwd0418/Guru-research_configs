@@ -1,0 +1,58 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: denoise
+spec:
+  template:
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: NotIn
+                    values:
+                      - perfsonar.csusb.edu
+                      - prp-gpu-3.t2.ucsd.edu
+                  - key: nvidia.com/gpu.product
+                    operator: In
+                    values:
+                    - NVIDIA-TITAN-RTX
+                    - NVIDIA-A40
+                    # - NVIDIA-GeForce-RTX-2080-Ti
+                    # - NVIDIA-GeForce-RTX-1080-Ti
+                    
+                  # #   # - NVIDIA-A100-PCIE-40GB-MIG-2g.10gb
+                    
+      containers:
+      - name: pod-container
+        image: xwd0418/dl_docker:vision
+        workingDir: /home/wangdong/autoencoder_denoiser/
+        command: ["sh", "-c", "sleep infinity"]
+        volumeMounts:
+          - mountPath: "/home/wangdong"
+            name: ae-denoiser
+          - mountPath: /dev/shm
+            name: dshm    
+        resources:
+          limits:
+            memory: 12Gi
+            cpu: "4"
+            nvidia.com/gpu: "2"
+          requests:
+            memory: 12Gi
+            cpu: "4"
+            nvidia.com/gpu: "2"
+      volumes:
+        - name: ae-denoiser
+          persistentVolumeClaim:
+            claimName: ae-denoiser
+        - name: dshm
+          emptyDir:
+            medium: Memory
+      restartPolicy: Never
+
+      imagePullSecrets:
+        - name: gitlab-auth
+  backoffLimit: 8

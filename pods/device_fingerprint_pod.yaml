@@ -1,0 +1,58 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: wangdong-device-pod
+
+spec:
+
+  # affinity:
+  #   nodeAffinity:
+  #     requiredDuringSchedulingIgnoredDuringExecution:
+  #       nodeSelectorTerms:
+  #       - matchExpressions:
+
+  #         - key: nvidia.com/gpu.product
+  #           operator: In
+  #           values:
+  #           - NVIDIA-GeForce-RTX-1080
+  #           - NVIDIA-GeForce-RTX-1080-Ti
+  #           - NVIDIA-GeForce-RTX-2080-Ti
+  #           - NVIDIA-A100-PCIE-40GB-MIG-2g.20gb
+  #           - NVIDIA-A100-PCIE-40GB-MIG-2g.10gb
+  #           - NVIDIA-A40
+  #           - NVIDIA-TITAN-RTX
+  #           # - NVIDIA-GeForce-RTX-3090
+
+  containers:
+  - name: pod-container
+    image: xwd0418/dl_docker:optuna_plt
+    command: ["sh", "-c", "sleep infinity"]
+    volumeMounts:
+      - mountPath: "/root/"  
+        name: device-fingerprint-vol
+      # - name: mysql-persistent-storage
+      #   mountPath: /var/lib/mysql
+      - mountPath: /dev/shm
+        name: dshm    
+    resources:
+      limits:
+        memory: 32Gi
+        nvidia.com/gpu: 0
+      requests:
+        memory: 32Gi
+        nvidia.com/gpu: 0
+  volumes:
+    - name: device-fingerprint-vol
+      persistentVolumeClaim:
+        claimName: device-fingerprint-vol
+    # - name: mysql-persistent-storage
+    #   persistentVolumeClaim:
+    #     claimName: mysql-pv-claim
+    - name: dshm
+      emptyDir:
+        medium: Memory
+  imagePullSecrets:
+    - name: gitlab-auth
+
+
+

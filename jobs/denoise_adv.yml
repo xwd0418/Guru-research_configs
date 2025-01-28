@@ -1,0 +1,73 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: denoise-adv
+spec:
+  template:
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: NotIn
+                    values:
+                      - perfsonar.csusb.edu
+                      - prp-gpu-3.t2.ucsd.edu
+                  - key: nvidia.com/gpu.product
+                    operator: In
+                    values:
+                    - NVIDIA-A40
+                    - NVIDIA-A6000
+                    - Tesla-V100-SXM2-32GB
+                    - NVIDIA-TITAN-RTX
+                    - Quadro-RTX-8000
+                    - Quadro-RTX-6000
+                    
+                    - NVIDIA-GeForce-RTX-2080-Ti
+                    - NVIDIA-GeForce-RTX-1080-Ti
+                    
+                  # #   # - NVIDIA-A100-PCIE-40GB-MIG-2g.10gb
+                    
+      containers:
+      - name: demo
+        image: xwd0418/dl_docker:vision
+        command: ["/bin/bash"]
+        # /data/scripts/init.sh; 
+        args: 
+        - "-c"
+        - >- 
+          cd /root/autoencoder_denoiser &&
+          python main.py adv
+
+        volumeMounts:
+          # - mountPath: "/data"
+          #   name: wangdong-smart-vol
+          - mountPath: "/root"
+            name: smart-tess-code
+          - mountPath: /dev/shm
+            name: dshm    
+        resources:
+          limits:
+            memory: 12Gi
+            cpu: "4"
+            nvidia.com/gpu: "2"
+          requests:
+            memory: 12Gi
+            cpu: "4"
+            nvidia.com/gpu: "2"
+      volumes:
+        # - name: wangdong-smart-vol
+        #   persistentVolumeClaim:
+        #     claimName: wangdong-smart-vol
+        - name: smart-tess-code
+          persistentVolumeClaim:
+            claimName: smart-tess-code
+        - name: dshm
+          emptyDir:
+            medium: Memory
+      restartPolicy: Never
+      imagePullSecrets:
+        - name: gitlab-auth
+  backoffLimit: 8

@@ -1,0 +1,114 @@
+
+# # multi-clsifr 
+# # sed -i '4s/.*/  name: wangdong-flexible-multi-clsfr-trial1/' jobs/morgan_fp_job.yml
+# # sed -i '41s/.*/              python train_ranker_transformer.py transformer_2d1d --foldername model_sizes  --expname flexible_384_multi_trail1 --random_seed 101 --optional_inputs true --FP_choice R0_to_R4_reduced_FP --separate_classifier true --scheduler attention --wavelength_bounds 0.01 400.0 --wavelength_bounds 0.01 20.0 /' jobs/morgan_fp_job.yml
+# # kubectl $mode  -f  jobs/morgan_fp_job.yml
+
+# # sed -i '4s/.*/  name: wangdong-flexible-multi-clsfr-trial2/' jobs/morgan_fp_job.yml
+# # sed -i '41s/.*/              python train_ranker_transformer.py transformer_2d1d --foldername model_sizes  --expname flexible_384_multi_trail2 --random_seed 202 --optional_inputs true --FP_choice R0_to_R4_reduced_FP --separate_classifier true --scheduler attention --wavelength_bounds 0.01 400.0 --wavelength_bounds 0.01 20.0 /' jobs/morgan_fp_job.yml
+# # kubectl $mode  -f  jobs/morgan_fp_job.yml
+
+# # sed -i '4s/.*/  name: wangdong-flexible-multi-clsfr-trial3/' jobs/morgan_fp_job.yml
+# # sed -i '41s/.*/              python train_ranker_transformer.py transformer_2d1d --foldername model_sizes  --expname flexible_384_multi_trail3 --random_seed 303 --optional_inputs true --FP_choice R0_to_R4_reduced_FP --separate_classifier true --scheduler attention --wavelength_bounds 0.01 400.0 --wavelength_bounds 0.01 20.0 /' jobs/morgan_fp_job.yml
+# # kubectl $mode  -f  jobs/morgan_fp_job.yml
+
+# # ### flexible 
+# # sed -i '4s/.*/  name: wangdong-flexible-1/' jobs/morgan_fp_job.yml
+# # sed -i '41s/.*/              python train_ranker_transformer.py transformer_2d1d --foldername model_sizes  --expname flexible_384_trail1 --random_seed 101 --optional_inputs true --FP_choice R0_to_R4_reduced_FP --scheduler attention --wavelength_bounds 0.01 400.0 --wavelength_bounds 0.01 20.0  /' jobs/morgan_fp_job.yml
+# # kubectl $mode  -f  jobs/morgan_fp_job.yml
+
+# # sed -i '4s/.*/  name: wangdong-flexible-2/' jobs/morgan_fp_job.yml
+# # sed -i '41s/.*/              python train_ranker_transformer.py transformer_2d1d --foldername model_sizes  --expname flexible_384_trail2 --random_seed 202 --optional_inputs true --FP_choice R0_to_R4_reduced_FP --scheduler attention --wavelength_bounds 0.01 400.0 --wavelength_bounds 0.01 20.0  /' jobs/morgan_fp_job.yml
+# # kubectl $mode  -f  jobs/morgan_fp_job.yml
+
+# # sed -i '4s/.*/  name: wangdong-flexible-3/' jobs/morgan_fp_job.yml
+# # sed -i '41s/.*/              python train_ranker_transformer.py transformer_2d1d --foldername model_sizes  --expname flexible_384_trail3 --random_seed 303 --optional_inputs true --FP_choice R0_to_R4_reduced_FP --scheduler attention --wavelength_bounds 0.01 400.0 --wavelength_bounds 0.01 20.0  /' jobs/morgan_fp_job.yml
+# # kubectl $mode  -f  jobs/morgan_fp_job.yml
+
+
+# # #
+
+
+
+# # sed -i '4s/.*/  name: wangdong-opt-512-trail1/' jobs/morgan_fp_job.yml
+# # sed -i '41s/.*/              python train_ranker_transformer.py transformer_2d1d --foldername model_sizes  --expname flexible_512_trail1 --random_seed 101   --optional_inputs true --FP_choice R0_to_R4_reduced_FP --dim_model 784 --dim_coords 365 365 54 --layer 16  --scheduler attention --wavelength_bounds 0.01 400.0 --wavelength_bounds 0.01 20.0 /' jobs/morgan_fp_job.yml
+# # kubectl $mode  -f  jobs/morgan_fp_job.yml
+
+# # sed -i '4s/.*/  name: wangdong-vanilla-512-trail1/' jobs/morgan_fp_job.yml
+# # sed -i '41s/.*/              python train_ranker_transformer.py transformer_2d1d --foldername model_sizes  --expname vanilla_512_trail1 --random_seed 101   --FP_choice R0_to_R4_reduced_FP --dim_model 512 --dim_model 784 --dim_coords 365 365 54 --layer 16  --scheduler attention --wavelength_bounds 0.01 400.0 --wavelength_bounds 0.01 20.0 /' jobs/morgan_fp_job.yml
+# # kubectl $mode  -f  jobs/morgan_fp_job.yml
+
+
+# # sed -i '4s/.*/  name: wangdong-opt-784-trail1/' jobs/morgan_fp_job.yml
+# # sed -i '41s/.*/              python train_ranker_transformer.py transformer_2d1d --foldername model_sizes  --expname flexible_784_trail1 --random_seed 101   --optional_inputs true --FP_choice R0_to_R4_reduced_FP --dim_model 784 --dim_coords 365 365 54 --layer 16  --warm_up_steps 8000 --scheduler attention --wavelength_bounds 0.01 400.0 --wavelength_bounds 0.01 20.0 /' jobs/morgan_fp_job.yml
+# # kubectl $mode  -f  jobs/morgan_fp_job.yml
+
+# # sed -i '4s/.*/  name: wangdong-vanilla-784-trail1/' jobs/morgan_fp_job.yml
+# # sed -i '41s/.*/              python train_ranker_transformer.py transformer_2d1d --foldername model_sizes  --expname vanilla_784_trail1 --random_seed 101   --FP_choice R0_to_R4_reduced_FP --dim_model 784 --dim_coords 365 365 54 --layer 16  --warm_up_steps 8000  --scheduler attention --wavelength_bounds 0.01 400.0 --wavelength_bounds 0.01 20.0 /' jobs/morgan_fp_job.yml
+# # kubectl $mode  -f  jobs/morgan_fp_job.yml
+
+# # sed -i '4s/.*/  name: wangdong-opt-1024-trail1/' jobs/morgan_fp_job.yml
+# # sed -i '41s/.*/              python train_ranker_transformer.py transformer_2d1d --foldername model_sizes  --expname flexible_1024_trail1 --random_seed 101   --optional_inputs true --FP_choice R0_to_R4_reduced_FP --dim_model 1024 --dim_coords 478 478 68 --layer 20 --warm_up_steps 8000 --scheduler attention --wavelength_bounds 0.01 400.0 --wavelength_bounds 0.01 20.0 /' jobs/morgan_fp_job.yml
+# # kubectl $mode  -f  jobs/morgan_fp_job.yml
+
+# # sed -i '4s/.*/  name: wangdong-vanilla-1024-trail1/' jobs/morgan_fp_job.yml
+# # sed -i '41s/.*/              python train_ranker_transformer.py transformer_2d1d --foldername model_sizes  --expname vanilla_1024_trail1 --random_seed 101   --FP_choice R0_to_R4_reduced_FP --dim_model 1024 --dim_coords 478 478 68 --layer 20 --warm_up_steps 8000  --scheduler attention --wavelength_bounds 0.01 400.0 --wavelength_bounds 0.01 20.0 /' jobs/morgan_fp_job.yml
+# # kubectl $mode  -f  jobs/morgan_fp_job.yml
+
+
+
+
+
+# # sed -i '4s/.*/  name: wangdong-opt-512-trial2/' jobs/morgan_fp_job.yml
+# # sed -i '41s/.*/              python train_ranker_transformer.py transformer_2d1d --foldername model_sizes  --expname flexible_512_trial2 --random_seed 202   --optional_inputs true --FP_choice R0_to_R4_reduced_FP --dim_model 784 --dim_coords 365 365 54 --layer 16  --scheduler attention --wavelength_bounds 0.01 400.0 --wavelength_bounds 0.01 20.0 /' jobs/morgan_fp_job.yml
+# # kubectl $mode  -f  jobs/morgan_fp_job.yml
+
+# # sed -i '4s/.*/  name: wangdong-vanilla-512-trial2/' jobs/morgan_fp_job.yml
+# # sed -i '41s/.*/              python train_ranker_transformer.py transformer_2d1d --foldername model_sizes  --expname vanilla_512_trial2 --random_seed 202   --FP_choice R0_to_R4_reduced_FP --dim_model 512 --dim_model 784 --dim_coords 365 365 54 --layer 16  --scheduler attention --wavelength_bounds 0.01 400.0 --wavelength_bounds 0.01 20.0 /' jobs/morgan_fp_job.yml
+# # kubectl $mode  -f  jobs/morgan_fp_job.yml
+
+
+# # sed -i '4s/.*/  name: wangdong-opt-784-trial2/' jobs/morgan_fp_job.yml
+# # sed -i '41s/.*/              python train_ranker_transformer.py transformer_2d1d --foldername model_sizes  --expname flexible_784_trial2 --random_seed 202   --optional_inputs true --FP_choice R0_to_R4_reduced_FP --dim_model 784 --dim_coords 365 365 54 --layer 16  --warm_up_steps 8000 --scheduler attention --wavelength_bounds 0.01 400.0 --wavelength_bounds 0.01 20.0 /' jobs/morgan_fp_job.yml
+# # kubectl $mode  -f  jobs/morgan_fp_job.yml
+
+# # sed -i '4s/.*/  name: wangdong-vanilla-784-trial2/' jobs/morgan_fp_job.yml
+# # sed -i '41s/.*/              python train_ranker_transformer.py transformer_2d1d --foldername model_sizes  --expname vanilla_784_trial2 --random_seed 202   --FP_choice R0_to_R4_reduced_FP --dim_model 784 --dim_coords 365 365 54 --layer 16  --warm_up_steps 8000  --scheduler attention --wavelength_bounds 0.01 400.0 --wavelength_bounds 0.01 20.0 /' jobs/morgan_fp_job.yml
+# # kubectl $mode  -f  jobs/morgan_fp_job.yml
+
+# # sed -i '4s/.*/  name: wangdong-opt-1024-trial2/' jobs/morgan_fp_job.yml
+# # sed -i '41s/.*/              python train_ranker_transformer.py transformer_2d1d --foldername model_sizes  --expname flexible_1024_trial2 --random_seed 202   --optional_inputs true --FP_choice R0_to_R4_reduced_FP --dim_model 1024 --dim_coords 478 478 68 --layer 20 --warm_up_steps 8000 --scheduler attention --wavelength_bounds 0.01 400.0 --wavelength_bounds 0.01 20.0 /' jobs/morgan_fp_job.yml
+# # kubectl $mode  -f  jobs/morgan_fp_job.yml
+
+# # sed -i '4s/.*/  name: wangdong-vanilla-1024-trial2/' jobs/morgan_fp_job.yml
+# # sed -i '41s/.*/              python train_ranker_transformer.py transformer_2d1d --foldername model_sizes  --expname vanilla_1024_trial2 --random_seed 202   --FP_choice R0_to_R4_reduced_FP --dim_model 1024 --dim_coords 478 478 68 --layer 20 --warm_up_steps 8000  --scheduler attention --wavelength_bounds 0.01 400.0 --wavelength_bounds 0.01 20.0 /' jobs/morgan_fp_job.yml
+# # kubectl $mode  -f  jobs/morgan_fp_job.yml
+
+
+
+# # sed -i '4s/.*/  name: wangdong-opt-512-trail3/' jobs/morgan_fp_job.yml
+# # sed -i '41s/.*/              python train_ranker_transformer.py transformer_2d1d --foldername model_sizes  --expname flexible_512_trail3 --random_seed 303   --optional_inputs true --FP_choice R0_to_R4_reduced_FP --dim_model 784 --dim_coords 365 365 54 --layer 16  --scheduler attention --wavelength_bounds 0.01 400.0 --wavelength_bounds 0.01 20.0 /' jobs/morgan_fp_job.yml
+# # kubectl $mode  -f  jobs/morgan_fp_job.yml
+
+# # sed -i '4s/.*/  name: wangdong-vanilla-512-trail3/' jobs/morgan_fp_job.yml
+# # sed -i '41s/.*/              python train_ranker_transformer.py transformer_2d1d --foldername model_sizes  --expname vanilla_512_trail3 --random_seed 303   --FP_choice R0_to_R4_reduced_FP --dim_model 512 --dim_model 784 --dim_coords 365 365 54 --layer 16  --scheduler attention --wavelength_bounds 0.01 400.0 --wavelength_bounds 0.01 20.0 /' jobs/morgan_fp_job.yml
+# # kubectl $mode  -f  jobs/morgan_fp_job.yml
+
+
+# # sed -i '4s/.*/  name: wangdong-opt-784-trail3/' jobs/morgan_fp_job.yml
+# # sed -i '41s/.*/              python train_ranker_transformer.py transformer_2d1d --foldername model_sizes  --expname flexible_784_trail3 --random_seed 303   --optional_inputs true --FP_choice R0_to_R4_reduced_FP --dim_model 784 --dim_coords 365 365 54 --layer 16  --warm_up_steps 8000 --scheduler attention --wavelength_bounds 0.01 400.0 --wavelength_bounds 0.01 20.0 /' jobs/morgan_fp_job.yml
+# # kubectl $mode  -f  jobs/morgan_fp_job.yml
+
+# # sed -i '4s/.*/  name: wangdong-vanilla-784-trail3/' jobs/morgan_fp_job.yml
+# # sed -i '41s/.*/              python train_ranker_transformer.py transformer_2d1d --foldername model_sizes  --expname vanilla_784_trail3 --random_seed 303   --FP_choice R0_to_R4_reduced_FP --dim_model 784 --dim_coords 365 365 54 --layer 16  --warm_up_steps 8000  --scheduler attention --wavelength_bounds 0.01 400.0 --wavelength_bounds 0.01 20.0 /' jobs/morgan_fp_job.yml
+# # kubectl $mode  -f  jobs/morgan_fp_job.yml
+
+# # sed -i '4s/.*/  name: wangdong-opt-1024-trail3/' jobs/morgan_fp_job.yml
+# # sed -i '41s/.*/              python train_ranker_transformer.py transformer_2d1d --foldername model_sizes  --expname flexible_1024_trail3 --random_seed 303   --optional_inputs true --FP_choice R0_to_R4_reduced_FP --dim_model 1024 --dim_coords 478 478 68 --layer 20 --warm_up_steps 8000 --scheduler attention --wavelength_bounds 0.01 400.0 --wavelength_bounds 0.01 20.0 /' jobs/morgan_fp_job.yml
+# # kubectl $mode  -f  jobs/morgan_fp_job.yml
+
+# # sed -i '4s/.*/  name: wangdong-vanilla-1024-trail3/' jobs/morgan_fp_job.yml
+# # sed -i '41s/.*/              python train_ranker_transformer.py transformer_2d1d --foldername model_sizes  --expname vanilla_1024_trail3 --random_seed 303   --FP_choice R0_to_R4_reduced_FP --dim_model 1024 --dim_coords 478 478 68 --layer 20 --warm_up_steps 8000  --scheduler attention --wavelength_bounds 0.01 400.0 --wavelength_bounds 0.01 20.0 /' jobs/morgan_fp_job.yml
+# # kubectl $mode  -f  jobs/morgan_fp_job.yml
+
+

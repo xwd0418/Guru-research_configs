@@ -1,0 +1,74 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: wangdong-pubmed-bert-contrast-2-smaller-lr
+spec:
+  template:
+    spec:
+
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  # - key: kubernetes.io/hostname
+                  #   operator: NotIn
+                  #   values:
+                  #     - perfsonar.csusb.edu
+                  #     - prp-gpu-3.t2.ucsd.edu
+                  - key: nvidia.com/gpu.product
+                    operator: In
+                    values:
+                    - NVIDIA-TITAN-RTX
+                    - NVIDIA-A40
+                    - NVIDIA-GeForce-RTX-3090
+                    - NVIDIA-RTX-A6000
+                    - NVIDIA-RTX-A5000
+                    # # - NVIDIA-GeForce-RTX-1080-Ti
+                    # - NVIDIA-GeForce-RTX-2080-Ti
+                    - NVIDIA-A10
+                    - NVIDIA-GeForce-RTX-4090
+      containers:
+        - name: demo
+          image: xwd0418/dl_docker:hugging_face
+          command: ["/bin/bash"]
+          # /data/scripts/init.sh;
+          args:
+            - "-c"
+            - >-
+              cd ~/pubmedQA_291 && 
+              python train_base_bert.py  --foldername contrastive --expname pubmed_bert_contrastive_finetuning_small_lr --lr 4e-6 --pretrained_model microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract-fulltext  --contrastive --contrastive_coeff 0.25 --saved_model_path /root/pubmedQA_291/exps/prevent_overfitting/microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract-fulltext_classification/pubmed_bert/checkpoints/epoch=2-step=4287.ckpt 
+ # python train_ranker_transformer.py hsqc_transformer --name_type 2 --foldername smiles_dataset --expname use_hyun_FP_with_correct_ranking --epochs 300 --do_hyun_FP  --patience 20 --pos_weight 2 --lr 5e-5 --bs 256 
+
+          volumeMounts:
+            # - mountPath: "/data"
+            #   name: wangdong-smart-vol
+            # - mountPath: "/root/autoencoder_denoiser/exps"
+            #   name: wangdong-smart-vol
+            - mountPath: "/root"
+              name: smart-tess-code
+            - mountPath: /dev/shm
+              name: dshm
+          resources:
+            limits:
+              memory: 32Gi
+              cpu: "24"
+              nvidia.com/gpu: "4"
+            requests:
+              memory: 32Gi
+              cpu: "24"
+              nvidia.com/gpu: "4"
+      volumes:
+        # - name: wangdong-smart-vol
+        #   persistentVolumeClaim:
+        #     claimName: wangdong-smart-vol
+        - name: smart-tess-code
+          persistentVolumeClaim:
+            claimName: smart-tess-code
+        - name: dshm
+          emptyDir:
+            medium: Memory
+      restartPolicy: Never
+      imagePullSecrets:
+        - name: gitlab-auth
+  backoffLimit: 2

@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pvc-lookup
+spec:
+
+  containers:
+    - name: pod-container
+      image: xwd0418/dl_docker:flask
+      command: ["sh"]
+      args: 
+      - "-c"
+      - >- 
+        sleep infinity 
+      volumeMounts:
+        - mountPath: "/pvc_lookup"
+          name: smart-tess-code 
+        - mountPath: /dev/shm
+          name: dshm
+        - mountPath: /workspace
+          name: data-unzip
+      resources:
+        limits:
+          memory: 2Gi
+          cpu: 2
+          nvidia.com/gpu: 0
+          ephemeral-storage: 100Gi
+        requests:
+          memory: 2Gi
+          cpu: 2
+          nvidia.com/gpu: 0
+          ephemeral-storage: 100Gi
+  
+  volumes:
+    - name: smart-tess-code 
+      persistentVolumeClaim:
+        claimName: stim-data-mount 
+    - name: dshm
+      emptyDir:
+        medium: Memory
+    - name: data-unzip
+      emptyDir: {}
+  # imagePullSecrets:
+  #   - name: gitlab-auth

@@ -1,0 +1,2 @@
+
+python train_ranker_transformer.py hsqc_transformer --name_type 2 --foldername model_dim_384_minimize --expname r2_FP --dim_model 384 --dim_coords  180 180 24 --wavelength_bounds 0.01 400.0 --wavelength_bounds 0.01 20.0 --coord_enc sce

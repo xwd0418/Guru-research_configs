@@ -1,0 +1,65 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: wangdong-device-no-cpu
+spec:
+  template:
+    spec:
+      # affinity:
+      #   nodeAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       nodeSelectorTerms:
+      #         - matchExpressions:
+      #             # - key: kubernetes.io/hostname
+      #             #   operator: NotIn
+      #             #   values:
+      #             #     - perfsonar.csusb.edu
+      #             #     - prp-gpu-3.t2.ucsd.edu
+      #             - key: nvidia.com/gpu.product
+      #               operator: In
+      #               values:
+      #               # - NVIDIA-TITAN-RTX
+      #               - NVIDIA-A40
+      #               # - NVIDIA-GeForce-RTX-2080-Ti
+      #               # - NVIDIA-GeForce-RTX-1080-Ti
+      #               - NVIDIA-GeForce-RTX-3090
+      #               - NVIDIA-RTX-A6000
+      #               - NVIDIA-RTX-A5000
+      containers:
+      - name: demo
+        image: xwd0418/dl_docker:flask
+        command: ["/bin/bash"]
+        # /data/scripts/init.sh; 
+        args: 
+        - "-c"
+        - >- 
+          cd /root/ && apt-get update && apt install curl -y && curl https://rclone.org/install.sh | bash &&
+          rclone copy configs_and_experiment_results.zip xwd_google_drive:/configs_and_experiment_results.zip
+        volumeMounts:
+          # - mountPath: "/data"
+          #   name: wangdong-smart-vol
+          - mountPath: "/root"  
+            name: device-fingerprint-vol
+          - mountPath: /dev/shm
+            name: dshm    
+        resources:
+          limits:
+            memory: 8Gi
+            cpu: "1"
+            nvidia.com/gpu: "0"
+          requests:
+            memory: 8Gi
+            cpu: "1"
+            nvidia.com/gpu: "0"
+      volumes:
+        - name: device-fingerprint-vol
+          persistentVolumeClaim:
+            claimName: device-fingerprint-vol
+       
+        - name: dshm
+          emptyDir:
+            medium: Memory
+      restartPolicy: Never
+      imagePullSecrets:
+        - name: gitlab-auth
+  backoffLimit: 1

@@ -1,0 +1,75 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: wangdong-tokenize
+spec:
+  template:
+    spec:
+      # affinity:
+      #   nodeAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       nodeSelectorTerms:
+      #         - matchExpressions:
+      #             # - key: kubernetes.io/hostname
+      #             #   operator: NotIn
+      #             #   values:
+      #             #     - perfsonar.csusb.edu
+      #             #     - prp-gpu-3.t2.ucsd.edu
+      #             - key: nvidia.com/gpu.product
+      #               operator: In
+      #               values:
+      #               - NVIDIA-TITAN-RTX
+      #               - NVIDIA-A40
+      #               - NVIDIA-GeForce-RTX-3090
+      #               - NVIDIA-RTX-A6000
+      #               - NVIDIA-RTX-A5000
+      #               - NVIDIA-GeForce-RTX-1080-Ti
+      #               - NVIDIA-GeForce-RTX-2080-Ti
+      #               - NVIDIA-A10
+      #               - NVIDIA-TITAN-RTX
+
+      containers:
+        - name: demo
+          image: xwd0418/dl_docker:flask
+          command: ["/bin/bash"]
+          # /data/scripts/init.sh;
+          args:
+            - "-c"
+            - >-
+              cd /root/Moonshot/SMART-Moonshot/dataset &&
+              python SmilesTokenizer.py 
+
+# python /root/MorganFP_prediction/self_inspection_scripts/extract_unique_consecutive_files_shift_assignment.py
+
+          volumeMounts:
+            # - mountPath: "/data"
+            #   name: wangdong-smart-vol
+            # - mountPath: "/root/autoencoder_denoiser/exps"
+            #   name: wangdong-smart-vol
+            - mountPath: "/root"
+              name: smart-tess-code
+            - mountPath: /dev/shm
+              name: dshm
+          resources:
+            limits:
+              memory: 256Gi
+              cpu: "16"
+              nvidia.com/gpu: "0"
+            requests:
+              memory: 256Gi
+              cpu: "16"
+              nvidia.com/gpu: "0"
+      volumes:
+        # - name: wangdong-smart-vol
+        #   persistentVolumeClaim:
+        #     claimName: wangdong-smart-vol
+        - name: smart-tess-code
+          persistentVolumeClaim:
+            claimName: smart-tess-code
+        - name: dshm
+          emptyDir:
+            medium: Memory
+      restartPolicy: Never
+      imagePullSecrets:
+        - name: gitlab-auth
+  backoffLimit: 0

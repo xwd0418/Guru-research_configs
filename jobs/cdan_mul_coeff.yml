@@ -1,0 +1,67 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cdan-mul-coeff
+spec:
+  template:
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: NotIn
+                    values:
+                      - perfsonar.csusb.edu
+                      - prp-gpu-3.t2.ucsd.edu
+                  - key: nvidia.com/gpu.product
+                    operator: In
+                    values:
+                    - NVIDIA-TITAN-RTX
+                    - NVIDIA-A40
+                    - NVIDIA-GeForce-RTX-2080-Ti
+                    - NVIDIA-GeForce-RTX-1080-Ti
+                    
+                  #   # - NVIDIA-A100-PCIE-40GB-MIG-2g.10gb
+                    
+      containers:
+      - name: demo
+        image: xwd0418/dl_docker:latest
+        command: ["/bin/bash"]
+        # /data/scripts/init.sh; 
+        args: 
+        - "-c"
+        - >- 
+          cd /root/EMDA_Project &&
+          python train.py --config configs/cdan.yml  --exp_name visda2017_mul_coeff_in_daloss
+        volumeMounts:
+          - mountPath: "/root/dataset"
+            name: domain-data
+          - mountPath: "/root"
+            name: domain-dev
+          - mountPath: /dev/shm
+            name: dshm    
+        resources:
+          limits:
+            memory: 24Gi
+            cpu: "4"
+            nvidia.com/gpu: "2"
+          requests:
+            memory: 24Gi
+            cpu: "4"
+            nvidia.com/gpu: "2"
+      volumes:
+        - name: domain-data
+          persistentVolumeClaim:
+            claimName: domain-data
+        - name: domain-dev
+          persistentVolumeClaim:
+            claimName: domain-dev
+        - name: dshm
+          emptyDir:
+            medium: Memory
+      restartPolicy: Never
+      imagePullSecrets:
+        - name: gitlab-auth
+  backoffLimit: 8

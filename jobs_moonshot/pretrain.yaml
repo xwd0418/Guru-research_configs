@@ -1,0 +1,80 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: wangdong-pretrain-smiles
+spec:
+  template:
+    spec:
+
+      # affinity:
+      #   nodeAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       nodeSelectorTerms:
+      #         - matchExpressions:
+      #             # - key: kubernetes.io/hostname
+      #             #   operator: NotIn
+      #             #   values:
+      #             #     - perfsonar.csusb.edu
+      #             #     - prp-gpu-3.t2.ucsd.edu
+      #             - key: nvidia.com/gpu.product
+      #               operator: In
+      #               values:
+      #               - NVIDIA-TITAN-RTX
+      #               - NVIDIA-A40
+      #               - NVIDIA-GeForce-RTX-3090
+      #               - NVIDIA-RTX-A6000
+      #               - NVIDIA-RTX-A5000
+      #               # - NVIDIA-GeForce-RTX-1080-Ti
+      #               - NVIDIA-GeForce-RTX-2080-Ti
+      #               - NVIDIA-A10
+      #               - NVIDIA-GeForce-RTX-4090
+      containers:
+        - name: demo
+          image: xwd0418/dl_docker:flask
+          command: ["/bin/bash"]
+          # /data/scripts/init.sh;
+          args:
+            - "-c"
+            - >-
+              bash /root/MorganFP_prediction/task_scripts/unzip_dataset_v2.sh &&
+              cd ~/Moonshot/SMART-Moonshot && 
+              python pretrain_smiles.py --foldername first_try --bs 32 
+
+          volumeMounts:
+            # - mountPath: "/data"
+            #   name: wangdong-smart-vol
+            # - mountPath: "/root/autoencoder_denoiser/exps"
+            #   name: wangdong-smart-vol
+            - mountPath: "/root"
+              name: smart-tess-code
+            - mountPath: /dev/shm
+              name: dshm
+            - mountPath: /workspace
+              name: data-unzip
+          resources:
+            limits:
+              memory: 48Gi
+              cpu: "12"
+              ephemeral-storage: 100Gi
+              nvidia.com/gpu: "4"
+            requests:
+              memory: 48Gi
+              cpu: "12"
+              ephemeral-storage: 100Gi
+              nvidia.com/gpu: "4"
+      volumes:
+        # - name: wangdong-smart-vol
+        #   persistentVolumeClaim:
+        #     claimName: wangdong-smart-vol
+        - name: smart-tess-code
+          persistentVolumeClaim:
+            claimName: smart-tess-code
+        - name: dshm
+          emptyDir:
+            medium: Memory
+        - name: data-unzip
+          emptyDir: {}
+      restartPolicy: Never
+      imagePullSecrets:
+        - name: gitlab-auth
+  backoffLimit: 2
