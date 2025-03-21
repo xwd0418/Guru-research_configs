@@ -1,7 +1,3 @@
-mode=delete
-
-
-
 
 #1
 sed -i '4s/.*/  name: wangdong-entropy-hsqc-and-c-1/' jobs/morgan_fp_job.yml

@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: wangdong-hsqc-and-h-trail2-i
+  name: wangdong-2-2-trial1-hyun-fp-only-c
 spec:
   template:
     spec:
@@ -37,8 +37,8 @@ spec:
             - "-c"
             - >-
               nvidia-smi -L  &&
-              cd /root/MorganFP_prediction/reproduce_previous_works/Spectre &&
-              python train_ranker_transformer.py transformer_2d1d  --foldername train_on_all_data_possible --random_seed 2 --expname HSQC_and_H_trial_2 --only_H_NMR true   --scheduler attention  --wavelength_bounds 0.01 400.0 --wavelength_bounds 0.01 20.0 --FP_choice DB_specific_FP_R_10  --out_dim 16384   
+              cd /root/gurusmart/MorganFP_prediction/reproduce_previous_works/Spectre &&
+              python train_ranker_transformer.py transformer_2d1d --train_on_all_info_set true --foldername entropy_radius_exps_only_C --random_seed 2 --only_C_NMR true --only_oneD_NMR true --expname Hyun_FP_only_c_trial_2   --FP_choice pick_entropy_r2 --scheduler attention  --wavelength_bounds 0.01 400.0 --wavelength_bounds 0.01 20.0   
  # python train_ranker_transformer.py hsqc_transformer --name_type 2 --foldername smiles_dataset --expname use_hyun_FP_with_correct_ranking --epochs 300 --do_hyun_FP  --patience 20 --pos_weight 2 --lr 5e-5 --bs 256 
 
           volumeMounts:
@@ -46,7 +46,7 @@ spec:
             #   name: wangdong-smart-vol
             # - mountPath: "/root/autoencoder_denoiser/exps"
             #   name: wangdong-smart-vol
-            - mountPath: "/root"
+            - mountPath: "/root/gurusmart"
               name: smart-tess-code
             - mountPath: /dev/shm
               name: dshm
@@ -54,12 +54,12 @@ spec:
               name: data-unzip
           resources:
             limits:
-              memory: 8Gi
+              memory: 20Gi
               cpu: "4"
               ephemeral-storage: 300Gi
               nvidia.com/gpu: "1"
             requests:
-              memory: 8Gi
+              memory: 20Gi
               cpu: "4"
               ephemeral-storage: 300Gi
               nvidia.com/gpu: "1"
@@ -72,17 +72,17 @@ spec:
           args:
             - "-c"
             - >-
-              bash /root/MorganFP_prediction/task_scripts/unzip_dataset_v2.sh &&
+              bash /root/gurusmart/MorganFP_prediction/task_scripts/unzip_dataset_v2.sh &&
               echo "Unzipping complete."
           resources:
             requests:
-              memory: "4Gi"
+              memory: "1Gi"
               cpu: "2"
             limits:
-              memory: "4Gi"
+              memory: "1Gi"
               cpu: "2"
           volumeMounts:
-            - mountPath: "/root"
+            - mountPath: "/root/gurusmart"
               name: smart-tess-code
             - mountPath: "/workspace"
               name: data-unzip
