@@ -5,24 +5,25 @@ metadata:
 spec:
 
 
-  # affinity:
-  #   nodeAffinity:
-  #     requiredDuringSchedulingIgnoredDuringExecution:
-  #       nodeSelectorTerms:
-  #         - matchExpressions:
-  #             - key: nvidia.com/gpu.product
-  #               operator: In
-  #               values:
-  #                 # - NVIDIA-GeForce-RTX-1080
-  #                 # - NVIDIA-GeForce-RTX-1080-Ti
-  #                 # - NVIDIA-GeForce-RTX-2080-Ti
-  #                 - NVIDIA-TITAN-RTX
-  #                 - NVIDIA-A40
-  #                 - NVIDIA-GeForce-RTX-3090
-  #                 - NVIDIA-RTX-A6000
-  #                 - NVIDIA-RTX-A5000
-  #                 - NVIDIA-A10
-  #                 - NVIDIA-GeForce-RTX-4090
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: nvidia.com/gpu.product
+                operator: In
+                values:
+                  # - NVIDIA-GeForce-RTX-1080
+                  # - NVIDIA-GeForce-RTX-1080-Ti
+                  # - NVIDIA-GeForce-RTX-2080-Ti
+                  - NVIDIA-TITAN-RTX
+                  - NVIDIA-A40
+                  - NVIDIA-GeForce-RTX-3090
+                  - NVIDIA-RTX-A6000
+                  - NVIDIA-RTX-A5000
+                  - NVIDIA-RTX-A4000
+                  - NVIDIA-A10
+                  - NVIDIA-GeForce-RTX-4090
 
   initContainers:
     - name: unzip-init
@@ -31,7 +32,7 @@ spec:
       args:
         - "-c"
         - >-
-          bash /root/MorganFP_prediction/task_scripts/unzip_dataset_v2.sh &&
+          bash /root/gurusmart/MorganFP_prediction/task_scripts/unzip_dataset_v2.sh &&
           echo "Unzipping complete."
       resources:
         requests:
@@ -41,7 +42,9 @@ spec:
           memory: "4Gi"
           cpu: "2"
       volumeMounts:
-        - mountPath: "/root"
+        # - mountPath: "/root"
+        #   name: xwd-vscode
+        - mountPath: "/root/gurusmart"
           name: smart-tess-code
         - mountPath: "/workspace"
           name: data-unzip
@@ -55,28 +58,34 @@ spec:
       - >- 
         sleep infinity 
       volumeMounts:
-        - mountPath: "/root"
+        # - mountPath: "/root"
+        #   name: xwd-vscode
+        - mountPath: "/root/gurusmart"
           name: smart-tess-code
+        - mountPath: "/workspace"
+          name: data-unzip
         - mountPath: /dev/shm
           name: dshm
-        - mountPath: /workspace
-          name: data-unzip
+        
       resources:
         limits:
-          memory: 32Gi
-          cpu: 12
-          nvidia.com/gpu: 1
+          memory: 24Gi
+          cpu: 8
+          nvidia.com/gpu: 2
           ephemeral-storage: 200Gi
         requests:
-          memory: 32Gi
-          cpu: 12
-          nvidia.com/gpu: 1
+          memory: 24Gi
+          cpu: 8
+          nvidia.com/gpu: 2
           ephemeral-storage: 200Gi
   
   volumes:
     - name: smart-tess-code
       persistentVolumeClaim:
         claimName: smart-tess-code
+    # - name: xwd-vscode
+    #   persistentVolumeClaim:
+    #     claimName: xwd-vscode
     - name: dshm
       emptyDir:
         medium: Memory

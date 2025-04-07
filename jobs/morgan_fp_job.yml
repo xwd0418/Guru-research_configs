@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: wangdong-2-2-trial1-hyun-fp-only-c
+  name: wangdong-optional-model-1-run-jitter-1
 spec:
   template:
     spec:
@@ -38,7 +38,7 @@ spec:
             - >-
               nvidia-smi -L  &&
               cd /root/gurusmart/MorganFP_prediction/reproduce_previous_works/Spectre &&
-              python train_ranker_transformer.py transformer_2d1d --train_on_all_info_set true --foldername entropy_radius_exps_only_C --random_seed 2 --only_C_NMR true --only_oneD_NMR true --expname Hyun_FP_only_c_trial_2   --FP_choice pick_entropy_r2 --scheduler attention  --wavelength_bounds 0.01 400.0 --wavelength_bounds 0.01 20.0   
+              python train_ranker_transformer.py transformer_2d1d --foldername flexible_models_jittering_size_1  --expname r0_r6_trial_1 --optional_inputs true --combine_oneD_only_dataset true --random_seed 1 --FP_choice Hash_Entropy_FP_R_6  --out_dim 16384 --jittering 1 
  # python train_ranker_transformer.py hsqc_transformer --name_type 2 --foldername smiles_dataset --expname use_hyun_FP_with_correct_ranking --epochs 300 --do_hyun_FP  --patience 20 --pos_weight 2 --lr 5e-5 --bs 256 
 
           volumeMounts:
@@ -54,15 +54,15 @@ spec:
               name: data-unzip
           resources:
             limits:
-              memory: 20Gi
-              cpu: "4"
+              memory: 64Gi
+              cpu: "24"
               ephemeral-storage: 300Gi
-              nvidia.com/gpu: "1"
+              nvidia.com/gpu: "6"
             requests:
-              memory: 20Gi
-              cpu: "4"
+              memory: 64Gi
+              cpu: "24"
               ephemeral-storage: 300Gi
-              nvidia.com/gpu: "1"
+              nvidia.com/gpu: "6"
 
 
       initContainers:
@@ -76,10 +76,10 @@ spec:
               echo "Unzipping complete."
           resources:
             requests:
-              memory: "1Gi"
+              memory: "3Gi"
               cpu: "2"
             limits:
-              memory: "1Gi"
+              memory: "3Gi"
               cpu: "2"
           volumeMounts:
             - mountPath: "/root/gurusmart"

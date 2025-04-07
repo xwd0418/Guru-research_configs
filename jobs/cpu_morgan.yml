@@ -14,10 +14,14 @@ spec:
           args:
             - "-c"
             - >-
-              python /root/gurusmart/MorganFP_prediction/reproduce_previous_works/Spectre/inference/build_deepsat_retrieval_set.py
+              bash /root/gurusmart/MorganFP_prediction/task_scripts/unzip_dataset_v2.sh && step=1 python /root/gurusmart/MorganFP_prediction/inference_data/build_infernce_set_db_specific.py && step=2 python /root/gurusmart/MorganFP_prediction/inference_data/build_infernce_set_db_specific.py
+# bash /root/gurusmart/MorganFP_prediction/reproduce_previous_works/Spectre/notebook_and_scripts/SMILES_fragmenting/build_dataset_specific_FP/save_zip.sh
+
+# bash /root/gurusmart/MorganFP_prediction/reproduce_previous_works/Spectre/notebook_and_scripts/SMILES_fragmenting/build_dataset_specific_FP/save_zip.sh
+# /root/gurusmart/MorganFP_prediction/reproduce_previous_works/Spectre/inference/build_deepsat_retrieval_set.py
 #step=2 HYUN_FP=1 python /root/gurusmart/MorganFP_prediction/inference_data/build_infernce_set_entropy_mfp.py
+              # bash /root/gurusmart/MorganFP_prediction/task_scripts/unzip_dataset_v2.sh &&
              
- # python train_ranker_transformer.py hsqc_transformer --name_type 2 --foldername smiles_dataset --expname use_hyun_FP_with_correct_ranking --epochs 300 --do_hyun_FP  --patience 20 --pos_weight 2 --lr 5e-5 --bs 256 
 
           volumeMounts:
             # - mountPath: "/data"
@@ -32,13 +36,13 @@ spec:
               name: data-unzip
           resources:
             limits:
-              memory: 128Gi
-              cpu: "1"
+              memory: 784Gi
+              cpu: "18"
               ephemeral-storage: 300Gi
               nvidia.com/gpu: "0"
             requests:
-              memory: 128Gi
-              cpu: "1"
+              memory: 784Gi
+              cpu: "18"
               ephemeral-storage: 300Gi
               nvidia.com/gpu: "0"
 
