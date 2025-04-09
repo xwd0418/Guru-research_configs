@@ -2,7 +2,7 @@
 
 IMPORTANT: In the YAML configs in this repo, I mount my own PVC storages. If you want to replicate Spectre in Nautilus, please 
 - Fork this repo 
-- Request PVC in Nautlis. [Examples to request PVCs](https://github.com/xwd0418/Guru-research_configs/tree/main/volumes)
+- Request PVC in Nautilus. [Examples to request PVCs](https://github.com/xwd0418/Guru-research_configs/tree/main/volumes)
 - Modify the yaml/yml config based on your own PVC
   
 ## Starting an interatvie pod
