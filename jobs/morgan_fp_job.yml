@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: wangdong-optional-model-1-run-jitter-1
+  name: wangdong-optional-model-1-run-jitter-optional-mw
 spec:
   template:
     spec:
@@ -38,7 +38,7 @@ spec:
             - >-
               nvidia-smi -L  &&
               cd /root/gurusmart/MorganFP_prediction/reproduce_previous_works/Spectre &&
-              python train_ranker_transformer.py transformer_2d1d --foldername flexible_models_jittering_size_1  --expname r0_r6_trial_1 --optional_inputs true --combine_oneD_only_dataset true --random_seed 1 --FP_choice Hash_Entropy_FP_R_6  --out_dim 16384 --jittering 1 
+              python train_ranker_transformer.py transformer_2d1d --foldername flexible_models_jittering_flexible_MW  --expname r0_r6_trial_1 --optional_inputs true --combine_oneD_only_dataset true --random_seed 1 --FP_choice Hash_Entropy_FP_R_6  --out_dim 16384 --optional_MW true  --jittering 1
  # python train_ranker_transformer.py hsqc_transformer --name_type 2 --foldername smiles_dataset --expname use_hyun_FP_with_correct_ranking --epochs 300 --do_hyun_FP  --patience 20 --pos_weight 2 --lr 5e-5 --bs 256 
 
           volumeMounts:
