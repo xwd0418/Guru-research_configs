@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: wangdong-optional-model-1-run-jitter-optional-mw
+  name: wangdong-all-data-only-hsqc-trail-jitter-search-2-3
 spec:
   template:
     spec:
@@ -38,7 +38,7 @@ spec:
             - >-
               nvidia-smi -L  &&
               cd /root/gurusmart/MorganFP_prediction/reproduce_previous_works/Spectre &&
-              python train_ranker_transformer.py transformer_2d1d --foldername flexible_models_jittering_flexible_MW  --expname r0_r6_trial_1 --optional_inputs true --combine_oneD_only_dataset true --random_seed 1 --FP_choice Hash_Entropy_FP_R_6  --out_dim 16384 --optional_MW true  --jittering 1
+              python train_ranker_transformer.py transformer_2d1d --foldername all_HSQC_jittering_search --jittering 2 --random_seed 3 --expname only_hsqc_jittering_2-trial-3 --use_oneD_NMR_no_solvent false  --FP_choice Hash_Entropy_FP_R_6  --out_dim 16384 --delete_checkpoint 1  
  # python train_ranker_transformer.py hsqc_transformer --name_type 2 --foldername smiles_dataset --expname use_hyun_FP_with_correct_ranking --epochs 300 --do_hyun_FP  --patience 20 --pos_weight 2 --lr 5e-5 --bs 256 
 
           volumeMounts:
@@ -52,17 +52,28 @@ spec:
               name: dshm
             - mountPath: /workspace
               name: data-unzip
+          # resources:
+          #   limits:
+          #     memory: 64Gi
+          #     cpu: "24"
+          #     ephemeral-storage: 300Gi
+          #     nvidia.com/gpu: "6"
+          #   requests:
+          #     memory: 64Gi
+          #     cpu: "24"
+          #     ephemeral-storage: 300Gi
+          #     nvidia.com/gpu: "6"
           resources:
             limits:
-              memory: 64Gi
-              cpu: "24"
-              ephemeral-storage: 300Gi
-              nvidia.com/gpu: "6"
+              memory: 14Gi
+              cpu: "3"
+              ephemeral-storage: 100Gi
+              nvidia.com/gpu: "1"
             requests:
-              memory: 64Gi
-              cpu: "24"
-              ephemeral-storage: 300Gi
-              nvidia.com/gpu: "6"
+              memory: 14Gi
+              cpu: "3"
+              ephemeral-storage: 100Gi
+              nvidia.com/gpu: "1"
 
 
       initContainers:
@@ -72,7 +83,7 @@ spec:
           args:
             - "-c"
             - >-
-              bash /root/gurusmart/MorganFP_prediction/task_scripts/unzip_dataset_v2.sh &&
+              bash /root/gurusmart/MorganFP_prediction/reproduce_previous_works/Spectre/task_scripts/unzip_dataset_v2.sh &&
               echo "Unzipping complete."
           resources:
             requests:

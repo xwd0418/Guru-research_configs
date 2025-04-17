@@ -4,7 +4,7 @@ out_dim=16384
 r=6
 FP_version="Hash_Entropy"
 
-for seed in 1 2 3; do
+for seed in 2 3; do
 
     # all three
     sed -i "4s/.*/  name: wangdong-all-data-only-all-3-trail${seed}-jitter/" jobs/morgan_fp_job.yml
