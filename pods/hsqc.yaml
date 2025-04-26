@@ -27,12 +27,12 @@ spec:
 
   initContainers:
     - name: unzip-init
-      image: gitlab-registry.nrp-nautilus.io/w6xu/guru-docker-image:3699f97c
+      image: gitlab-registry.nrp-nautilus.io/w6xu/guru-docker-image:4afc2191
       command: ["sh"]
       args:
         - "-c"
         - >-
-          bash /root/gurusmart/MorganFP_prediction/task_scripts/unzip_dataset_v2.sh &&
+          bash /root/gurusmart/MorganFP_prediction/reproduce_previous_works/Spectre/task_scripts/unzip_dataset_v2.sh &&
           echo "Unzipping complete."
       resources:
         requests:
@@ -51,7 +51,7 @@ spec:
 
   containers:
     - name: pod-container
-      image: gitlab-registry.nrp-nautilus.io/w6xu/guru-docker-image:3699f97c
+      image: gitlab-registry.nrp-nautilus.io/w6xu/guru-docker-image:4afc2191
       command: ["sh"]
       args: 
       - "-c"
@@ -71,12 +71,12 @@ spec:
         limits:
           memory: 24Gi
           cpu: 4
-          nvidia.com/gpu: 1
+          nvidia.com/gpu: 2
           ephemeral-storage: 200Gi
         requests:
           memory: 24Gi
           cpu: 4
-          nvidia.com/gpu: 1
+          nvidia.com/gpu: 2
           ephemeral-storage: 200Gi
   
   volumes:

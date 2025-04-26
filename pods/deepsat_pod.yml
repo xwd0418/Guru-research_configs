@@ -26,7 +26,7 @@ spec:
 
   initContainers:
     - name: unzip-init
-      image: gitlab-registry.nrp-nautilus.io/w6xu/guru-docker-image:3699f97c
+      image: gitlab-registry.nrp-nautilus.io/w6xu/guru-docker-image:4afc2191
       command: ["sh"]
       args:
         - "-c"

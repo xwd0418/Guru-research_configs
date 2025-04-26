@@ -5,11 +5,12 @@ r=6
 FP_version="Hash_Entropy"
 
 for seed in 1 2 3 ; do
-    for jitter in 0 0.25 0.5 1 2 ; do
+    # for jitter in 0 0.25 0.5 1 2 ; do
+    for jitter in 4 ; do
 
         # only HSQC 
         sed -i "4s/.*/  name: wangdong-all-data-only-hsqc-trail-jitter-search-${jitter//./-}-$seed/" jobs/morgan_fp_job.yml
-        sed -i "41s/.*/              python train_ranker_transformer.py transformer_2d1d --foldername all_HSQC_jittering_search --jittering ${jitter} --random_seed $seed --expname only_hsqc_jittering_${jitter}-trial-$seed --use_oneD_NMR_no_solvent false  --FP_choice ${FP_version}_FP_R_${r}  --out_dim $out_dim --delete_checkpoint 1  /" jobs/morgan_fp_job.yml
+        sed -i "41s/.*/              python train_ranker_transformer.py transformer_2d1d --foldername all_HSQC_jittering_search --jittering ${jitter} --random_seed $seed --expname only_hsqc_jittering_${jitter}-trial-$seed --use_oneD_NMR_no_solvent false  --FP_choice ${FP_version}_FP_R_${r}  --out_dim $out_dim  /" jobs/morgan_fp_job.yml
         kubectl $mode  -f  jobs/morgan_fp_job.yml
 
 

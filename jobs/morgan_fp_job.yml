@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: wangdong-all-data-only-hsqc-trail-jitter-search-2-3
+  name: wangdong-1-smart-bart
 spec:
   template:
     spec:
@@ -30,7 +30,7 @@ spec:
                     - NVIDIA-GeForce-RTX-4090
       containers:
         - name: demo
-          image: gitlab-registry.nrp-nautilus.io/w6xu/guru-docker-image:3699f97c
+          image: gitlab-registry.nrp-nautilus.io/w6xu/guru-docker-image:4afc2191
           command: ["/bin/bash"]
           # /data/scripts/init.sh;
           args:
@@ -38,7 +38,7 @@ spec:
             - >-
               nvidia-smi -L  &&
               cd /root/gurusmart/MorganFP_prediction/reproduce_previous_works/Spectre &&
-              python train_ranker_transformer.py transformer_2d1d --foldername all_HSQC_jittering_search --jittering 2 --random_seed 3 --expname only_hsqc_jittering_2-trial-3 --use_oneD_NMR_no_solvent false  --FP_choice Hash_Entropy_FP_R_6  --out_dim 16384 --delete_checkpoint 1  
+              python tain_SMART_BART.py --foldername initial_exps --random_seed 1 --expname only_hsqc_trial_1 --use_oneD_NMR_no_solvent 0 
  # python train_ranker_transformer.py hsqc_transformer --name_type 2 --foldername smiles_dataset --expname use_hyun_FP_with_correct_ranking --epochs 300 --do_hyun_FP  --patience 20 --pos_weight 2 --lr 5e-5 --bs 256 
 
           volumeMounts:
@@ -52,33 +52,44 @@ spec:
               name: dshm
             - mountPath: /workspace
               name: data-unzip
+
           # resources:
           #   limits:
-          #     memory: 64Gi
-          #     cpu: "24"
+          #     memory: 78Gi
+          #     cpu: "32"
           #     ephemeral-storage: 300Gi
           #     nvidia.com/gpu: "6"
           #   requests:
-          #     memory: 64Gi
-          #     cpu: "24"
+          #     memory: 78Gi
+          #     cpu: "32"
           #     ephemeral-storage: 300Gi
           #     nvidia.com/gpu: "6"
+          # resources:
+          #   limits:
+          #     memory: 14Gi
+          #     cpu: "3"
+          #     ephemeral-storage: 100Gi
+          #     nvidia.com/gpu: "1"
+          #   requests:
+          #     memory: 14Gi
+          #     cpu: "3"
+          #     ephemeral-storage: 100Gi
+          #     nvidia.com/gpu: "1"
           resources:
             limits:
-              memory: 14Gi
-              cpu: "3"
+              memory: 24Gi
+              cpu: "10"
               ephemeral-storage: 100Gi
-              nvidia.com/gpu: "1"
+              nvidia.com/gpu: "2"
             requests:
-              memory: 14Gi
-              cpu: "3"
+              memory: 24Gi
+              cpu: "10"
               ephemeral-storage: 100Gi
-              nvidia.com/gpu: "1"
-
+              nvidia.com/gpu: "2"
 
       initContainers:
         - name: unzip-init
-          image: gitlab-registry.nrp-nautilus.io/w6xu/guru-docker-image:3699f97c
+          image: gitlab-registry.nrp-nautilus.io/w6xu/guru-docker-image:4afc2191
           command: ["sh"]
           args:
             - "-c"

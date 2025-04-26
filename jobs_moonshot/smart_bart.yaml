@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: xwd-gpu-task
+  name: wangdong-1-smart-bart-small
 spec:
   template:
     spec:
@@ -36,7 +36,11 @@ spec:
           args:
             - "-c"
             - >-
-              python /root/gurusmart/MorganFP_prediction/task_scripts/test_again_on_retrieval_set.py
+              nvidia-smi -L  &&
+              cd /root/gurusmart/Moonshot/SMART-Moonshot &&
+              python tain_SMART_BART.py --foldername initial_exps_larger_model --random_seed 1 --expname only_hsqc_small_model_trial_1 --use_oneD_NMR_no_solvent 0 --use_small_model 1 
+ # python train_ranker_transformer.py hsqc_transformer --name_type 2 --foldername smiles_dataset --expname use_hyun_FP_with_correct_ranking --epochs 300 --do_hyun_FP  --patience 20 --pos_weight 2 --lr 5e-5 --bs 256 
+
           volumeMounts:
             # - mountPath: "/data"
             #   name: wangdong-smart-vol
@@ -48,18 +52,41 @@ spec:
               name: dshm
             - mountPath: /workspace
               name: data-unzip
+
           resources:
             limits:
               memory: 24Gi
-              cpu: "4"
-              ephemeral-storage: 300Gi
-              nvidia.com/gpu: "1"
+              cpu: "12"
+              ephemeral-storage: 100Gi
+              nvidia.com/gpu: "4"
             requests:
               memory: 24Gi
-              cpu: "4"
-              ephemeral-storage: 300Gi
-              nvidia.com/gpu: "1"
+              cpu: "12"
+              ephemeral-storage: 100Gi
+              nvidia.com/gpu: "4"
+          # resources:
+          #   limits:
+          #     memory: 14Gi
+          #     cpu: "3"
+          #     ephemeral-storage: 100Gi
+          #     nvidia.com/gpu: "1"
+          #   requests:
+          #     memory: 14Gi
+          #     cpu: "3"
+          #     ephemeral-storage: 100Gi
+          #     nvidia.com/gpu: "1"
 
+          # resources:
+          #   limits:
+          #     memory: 12Gi
+          #     cpu: "6"
+          #     ephemeral-storage: 100Gi
+          #     nvidia.com/gpu: "1"
+          #   requests:
+          #     memory: 12Gi
+          #     cpu: "6"
+          #     ephemeral-storage: 100Gi
+          #     nvidia.com/gpu: "1"
 
       initContainers:
         - name: unzip-init
@@ -68,14 +95,14 @@ spec:
           args:
             - "-c"
             - >-
-              bash /root/gurusmart/MorganFP_prediction/task_scripts/unzip_dataset_v2.sh &&
+              bash /root/gurusmart/MorganFP_prediction/reproduce_previous_works/Spectre/task_scripts/unzip_dataset_v2.sh &&
               echo "Unzipping complete."
           resources:
             requests:
-              memory: "4Gi"
+              memory: "3Gi"
               cpu: "2"
             limits:
-              memory: "4Gi"
+              memory: "3Gi"
               cpu: "2"
           volumeMounts:
             - mountPath: "/root/gurusmart"

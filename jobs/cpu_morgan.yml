@@ -8,13 +8,14 @@ spec:
 
       containers:
         - name: demo
-          image: gitlab-registry.nrp-nautilus.io/w6xu/guru-docker-image:3699f97c
+          image: gitlab-registry.nrp-nautilus.io/w6xu/guru-docker-image:4afc2191
           command: ["/bin/bash"]
           # /data/scripts/init.sh;
           args:
             - "-c"
-            - >-
-              bash /root/gurusmart/MorganFP_prediction/task_scripts/unzip_dataset_v2.sh && step=1 python /root/gurusmart/MorganFP_prediction/reproduce_previous_works/Spectre/notebook_and_scripts/dataset_building/build_infernce_set_db_specific.py && step=2 python /root/gurusmart/MorganFP_prediction/reproduce_previous_works/Spectre/notebook_and_scripts/dataset_building/build_infernce_set_db_specific.py
+            - >- 
+              bash /root/gurusmart/MorganFP_prediction/reproduce_previous_works/Spectre/task_scripts/web_scrape_NP_class_and_update_zip.sh
+# bash /root/gurusmart/MorganFP_prediction/task_scripts/unzip_dataset_v2.sh && step=1 python /root/gurusmart/MorganFP_prediction/reproduce_previous_works/Spectre/notebook_and_scripts/dataset_building/build_infernce_set_db_specific.py && step=2 python /root/gurusmart/MorganFP_prediction/reproduce_previous_works/Spectre/notebook_and_scripts/dataset_building/build_infernce_set_db_specific.py
 # bash /root/gurusmart/MorganFP_prediction/reproduce_previous_works/Spectre/notebook_and_scripts/SMILES_fragmenting/build_dataset_specific_FP/save_zip.sh
 
 # bash /root/gurusmart/MorganFP_prediction/reproduce_previous_works/Spectre/notebook_and_scripts/SMILES_fragmenting/build_dataset_specific_FP/save_zip.sh
@@ -36,18 +37,50 @@ spec:
               name: data-unzip
           resources:
             limits:
-              memory: 784Gi
-              cpu: "18"
+              memory: 3Gi
+              cpu: "16"
               ephemeral-storage: 300Gi
               nvidia.com/gpu: "0"
             requests:
-              memory: 784Gi
-              cpu: "18"
+              memory: 3Gi
+              cpu: "16"
               ephemeral-storage: 300Gi
               nvidia.com/gpu: "0"
+          # resources:
+          #   limits:
+          #     memory: 784Gi
+          #     cpu: "18"
+          #     ephemeral-storage: 300Gi
+          #     nvidia.com/gpu: "0"
+          #   requests:
+          #     memory: 784Gi
+          #     cpu: "18"
+          #     ephemeral-storage: 300Gi
+          #     nvidia.com/gpu: "0"
 
 
-     
+      initContainers:
+        - name: unzip-init
+          image: gitlab-registry.nrp-nautilus.io/w6xu/guru-docker-image:4afc2191
+          command: ["sh"]
+          args:
+            - "-c"
+            - >-
+              bash /root/gurusmart/MorganFP_prediction/reproduce_previous_works/Spectre/task_scripts/unzip_dataset_v2.sh &&
+              echo "Unzipping complete."
+          resources:
+            requests:
+              memory: "3Gi"
+              cpu: "2"
+            limits:
+              memory: "3Gi"
+              cpu: "2"
+          volumeMounts:
+            - mountPath: "/root/gurusmart"
+              name: smart-tess-code
+            - mountPath: "/workspace"
+              name: data-unzip
+
       volumes:
         # - name: wangdong-smart-vol
         #   persistentVolumeClaim:
